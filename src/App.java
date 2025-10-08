@@ -62,6 +62,9 @@ public class App {
          int track = 0; // track number of cats being added into array
 
          try (Scanner myScanner = new Scanner(new File (fileName))){
+            if (myScanner.hasNextLine()){
+                myScanner.nextLine();
+            }
            
             // TODO: read each line of the file
             // Hint: you can use line.split(",\\s*"); 
@@ -93,7 +96,7 @@ public class App {
         // value to be parsed, and a default value
         String ownerName = readStringSafely(data, 0, "Unknown owner name");
         String name = readStringSafely(data, 1, "Unknown cat name");
-        int age = parseIntSafely(data, 2, 0);
+        int age = parseIntSafely(data, 2, -1);
         String sound = readStringSafely(data, 3, "Unknown sound");
         String story = readStringSafely(data, 4, "Unknown story");
 
