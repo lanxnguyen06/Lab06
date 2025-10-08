@@ -68,8 +68,8 @@ public class App {
             // to split a string by a delimiter (String[])
             while(myScanner.hasNextLine()){
                 String line = myScanner.nextLine();
-                String[] split = line.split(",\\s*"); //
-                Cat cat = createCatFromFileData();
+                String[] data = line.split(",\\s*"); //
+                Cat cat = createCatFromFileData(data);
                 if (track < cats.length && cat != null){ // as long as tracking number of cats isn't bigger than total amount of cats & cat info isn't null
                     cats[track] = cat; // array of cats at index track gets filled with info of cat 
                     track++; // move onto next cat
@@ -86,17 +86,18 @@ public class App {
     }
 
 
-    // TODO: Read cat object from file (decide on whether you need a parameter!)
-    private static Cat createCatFromFileData() {
+    // TODO: Read cat object from file (decide on whether you need a parameter!) // yes so i can pass string[] data
+    private static Cat createCatFromFileData(String[] data) {
         // Hint: use the helper methods below
         // parseIntSafely & readStringSafely expect an array, index of the respective
         // value to be parsed, and a default value
-        String ownerName = null;
-        Owner owner = null;
-        String name = null;
-        int age = -1;
-        String sound = null;
-        String story = null;
+        String ownerName = readStringSafely(data, 0, "Unknown owner name");
+        String name = readStringSafely(data, 1, "Unknown cat name");
+        int age = parseIntSafely(data, 2, 0);
+        String sound = readStringSafely(data, 3, "Unknown sound");
+        String story = readStringSafely(data, 4, "Unknown story");
+
+        Owner owner = new Owner(ownerName);
 
         return new Cat(name, sound, age, story, owner);
     }
