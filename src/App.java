@@ -14,19 +14,16 @@ import java.io.FileNotFoundException;
 public class App {
 
     public static void main(String[] args) {
-
-        // TODO 1.0: Check the argument's length
-            if (args.length == 0){
+        if (args.length == 0){
             System.out.println("Please provide a filename as an argument.");
             return; // if no filename exit the program
         }
+
         System.out.println("File to read: " + args[0]); 
-        // TODO 1.1: Call readCatsFromFile()
         Cat[] cats = readCatsFromFile(args[0]);
 
-        // TODO 2.3: Check if array is not null,
-        if (cats != null){
-            for (Cat cat : cats){ // iterates through the entire array
+        if (cats != null){ // if array not null
+            for (Cat cat : cats){ // enhanced for loop iterates through the entire array
                 printCatInfo(cat); // prints cat info
             }
         }
@@ -35,20 +32,18 @@ public class App {
         }
     }
 
-    // TODO 1.1: Implement
     public static Cat[] readCatsFromFile(String fileName) {
         System.out.println("Reading data from file: " + fileName);
-        // TODO: Declare an array of cats
         Cat[] cats = null; // i know there's 5 cats in the csv file but slide 16 on the lab says to read "multiple stories" so i'm assuming i need to make it the code adjust to various amounts of cats
         int count = 0;
 
-        // Try-catch block around reading the csv file
-        try (Scanner myScanner = new Scanner(new File(fileName))){
-            // TODO : Skip header line
-            if (myScanner.hasNextLine()){ 
+        File file = new File(fileName);
+
+        try (Scanner myScanner = new Scanner(file)){ // scanner reads file
+            if (myScanner.hasNextLine()){ // returns true if there is another line in the scanner
                 myScanner.nextLine(); // Owner, Cat, Age, Sound, Story is skipped
             }
-            while (myScanner.hasNextLine()){
+            while (myScanner.hasNextLine()){ // ends when there is no more lines in the file read by the scanner
                 myScanner.nextLine();
                 count++; // counts cats
             }
@@ -61,39 +56,31 @@ public class App {
          cats = new Cat[count]; // now know how many cats are in the csv file
          int track = 0; // track number of cats being added into array
 
-         try (Scanner myScanner = new Scanner(new File (fileName))){
+          try (Scanner myScanner = new Scanner(file)){
             if (myScanner.hasNextLine()){
                 myScanner.nextLine();
             }
-           
-            // TODO: read each line of the file
-            // Hint: you can use line.split(",\\s*"); 
-            // to split a string by a delimiter (String[])
+
             while(myScanner.hasNextLine()){
                 String line = myScanner.nextLine();
-                String[] data = line.split(",\\s*"); //
-                Cat cat = createCatFromFileData(data);
+                String[] data = line.split(",\\s*");
+                Cat cat = createCatFromFileData(data); // creates new cat object based on data read and gets stored in the cat array
                 if (track < cats.length && cat != null){ // as long as tracking number of cats isn't bigger than total amount of cats & cat info isn't null
                     cats[track] = cat; // array of cats at index track gets filled with info of cat 
                     track++; // move onto next cat
                 }
             }
-            // TODO: use createCatFromFileData() to create a new cat object from the data read
-            // then store it in the cat array
         }
         catch (FileNotFoundException e){
             System.out.println("File was not found: " + fileName);
             return null;
         }
-        return cats;
+        return cats; // returns array that is now full of cat info
     }
 
 
-    // TODO: Read cat object from file (decide on whether you need a parameter!) // yes so i can pass string[] data
+    // TODO: Read cat object from file (decide on whether you need a parameter!) --> yes so i can pass string[] data
     private static Cat createCatFromFileData(String[] data) {
-        // Hint: use the helper methods below
-        // parseIntSafely & readStringSafely expect an array, index of the respective
-        // value to be parsed, and a default value
         String ownerName = readStringSafely(data, 0, "Unknown owner name");
         String name = readStringSafely(data, 1, "Unknown cat name");
         int age = parseIntSafely(data, 2, -1);
