@@ -52,10 +52,12 @@ public class App {
                 myScanner.nextLine();
                 count++; // counts cats
             }
-        catch (InputMismatchException e){
+        }
+        catch (FileNotFoundException e){
             System.out.println("File not found: " + fileName);
             return null; // no cats found
         }
+
          cats = new Cat[count]; // now know how many cats are in the csv file
          int track = 0; // track number of cats being added into array
 
@@ -66,20 +68,23 @@ public class App {
             // to split a string by a delimiter (String[])
             while(myScanner.hasNextLine()){
                 String line = myScanner.nextLine();
-                String split = line.split(",\\s*"); //
+                String[] split = line.split(",\\s*"); //
+                Cat cat = createCatFromFileData();
+                if (track < cats.length && cat != null){ // as long as tracking number of cats isn't bigger than total amount of cats & cat info isn't null
+                    cats[track] = cat; // array of cats at index track gets filled with info of cat 
+                    track++; // move onto next cat
+                }
             }
-
-            
             // TODO: use createCatFromFileData() to create a new cat object from the data read
             // then store it in the cat array
-
         }
         catch (FileNotFoundException e){
             System.out.println("File was not found: " + fileName);
             return null;
         }
+        return cats;
     }
-}
+
 
     // TODO: Read cat object from file (decide on whether you need a parameter!)
     private static Cat createCatFromFileData() {
