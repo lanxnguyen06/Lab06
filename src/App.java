@@ -5,7 +5,6 @@
  */
 
 /*** Simplified for LAB06 ***/
-
 import java.util.Scanner;
 import java.util.Arrays;
 import java.util.InputMismatchException;
@@ -17,14 +16,27 @@ public class App {
     public static void main(String[] args) {
 
         // TODO 1.0: Check the argument's length
+            if (args.length == 0){
+            System.out.println("Please provide a filename as an argument.");
+            return; // if no filename exit the program
+        }
+        System.out.println("File to read: " + args[0]); 
         // TODO 1.1: Call readCatsFromFile()
+        Cat[] cats = readCatsFromFile(args[0]);
 
         // TODO 2.3: Check if array is not null,
-        // iterate through the array and print the cats
+        if (cats != null){
+            for (Cat cat : cats){ // iterates through the entire array
+                printCatInfo(cat); // prints cat info
+            }
+        }
+        else{
+            System.out.println("The array is null!");
+        }
     }
 
     // TODO 1.1: Implement
-    public static /* TODO type */ readCatsFromFile(String fileName) {
+    public static Cat readCatsFromFile(String fileName) {
         System.out.println("Reading data from file: " + fileName);
         // TODO: Declare an array of cats
 
