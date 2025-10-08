@@ -36,24 +36,50 @@ public class App {
     }
 
     // TODO 1.1: Implement
-    public static Cat readCatsFromFile(String fileName) {
+    public static Cat[] readCatsFromFile(String fileName) {
         System.out.println("Reading data from file: " + fileName);
         // TODO: Declare an array of cats
+        Cat[] cats = null; // i know there's 5 cats in the csv file but slide 16 on the lab says to read "multiple stories" so i'm assuming i need to make it the code adjust to various amounts of cats
+        int count = 0;
 
         // Try-catch block around reading the csv file
-        try (Scanner myScanner = new Scanner(new File(fileName))) {
+        try (Scanner myScanner = new Scanner(new File(fileName))){
             // TODO : Skip header line
+            if (myScanner.hasNextLine()){ 
+                myScanner.nextLine(); // Owner, Cat, Age, Sound, Story is skipped
+            }
+            while (myScanner.hasNextLine()){
+                myScanner.nextLine();
+                count++; // counts cats
+            }
+        catch (InputMismatchException e){
+            System.out.println("File not found: " + fileName);
+            return null; // no cats found
+        }
+         cats = new Cat[count]; // now know how many cats are in the csv file
+         int track = 0; // track number of cats being added into array
+
+         try (Scanner myScanner = new Scanner(new File (fileName))){
            
             // TODO: read each line of the file
             // Hint: you can use line.split(",\\s*"); 
             // to split a string by a delimiter (String[])
+            while(myScanner.hasNextLine()){
+                String line = myScanner.nextLine();
+                String split = line.split(",\\s*"); //
+            }
+
             
             // TODO: use createCatFromFileData() to create a new cat object from the data read
             // then store it in the cat array
 
-        } 
-        return null;
+        }
+        catch (FileNotFoundException e){
+            System.out.println("File was not found: " + fileName);
+            return null;
+        }
     }
+}
 
     // TODO: Read cat object from file (decide on whether you need a parameter!)
     private static Cat createCatFromFileData() {
