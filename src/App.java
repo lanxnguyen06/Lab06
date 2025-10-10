@@ -12,7 +12,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 
 public class App {
-
+    
     public static void main(String[] args) {
         if (args.length == 0){
             System.out.println("Please provide a filename as an argument.");
@@ -71,15 +71,13 @@ public class App {
                 }
             }
         }
-        catch (FileNotFoundException e){
-            System.out.println("File was not found: " + fileName);
-            return null;
-        }
+            catch (FileNotFoundException e){
+                System.out.println("File was not found: " + fileName);
+                return null;
+            }
         return cats; // returns array that is now full of cat info
     }
 
-
-    // TODO: Read cat object from file (decide on whether you need a parameter!) --> yes so i can pass string[] data
     private static Cat createCatFromFileData(String[] data) {
         String ownerName = readStringSafely(data, 0, "Unknown owner name");
         String name = readStringSafely(data, 1, "Unknown cat name");
